@@ -186,7 +186,7 @@ The LHS can be manipulated as
 \begin{equation}
 	\begin{aligned}
 		\sum^{m}_{i=1} \sum^{m}_{j=1} \alpha_i \alpha_j K(x, y)  &= \sum^{m}_{i=1} \sum^{m}_{j=1} \alpha_i \alpha_j \langle K(., x_i), K(., x_j) \rangle \\    
-									 &=  \langle \sum^{m}_{i=1} \alpha_i K(., x_i), \sum^{n}_{i=1}, \sum^{m}_{j=1} \alpha_j K(., x_j)    \rangle \\
+									 &=  \langle \sum^{m}_{i=1} \alpha_i K(., x_i), \sum^{m}_{j=1} \alpha_j K(., x_j)    \rangle \\
 									 &= \left| \left| \sum^{m}_{i=1} \alpha_i K(., x_i)  \right| \right|^2
 	\end{aligned}
 \end{equation}
@@ -195,7 +195,6 @@ This norm is always non-negative, so it can be concluded that
 	\sum^{m}_{i=1} \sum^{m}_{j=1} \alpha_i \alpha_j K(x_i, x_j) \ge 0, 
 \end{equation}
 meaning that the kernel satisfies the positive definite property.
-
 
 
 \item for any $f \in H$ and $x \in \mathcal{X}$, $|f(x)|\leq ||f||\sqrt{K(x,x)}$
