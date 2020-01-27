@@ -101,7 +101,7 @@
 
 \homework{1}{January 29th, 2020}{Ethan Lew}{Bruno Jedynak}
 
-\section{Orthogonal projection in a hilbert space}
+\section{Orthogonal Projection in a Hilbert Space}
 Let $H$ be a Hilbert space and $V$ a closed subspace of $H$. Notate $\pi_V(f)$ the orthogonal projection of $f$ onto $H$. $\pi_V(f)$ is then the unique element of $H$ which verifies:
 \begin{enumerate}
 \item $\pi_V(f) \in V$;
@@ -145,7 +145,7 @@ Hint: verify that $\langle f,\pi_V(g)\rangle=\langle\pi_V(f),\pi_V(g)\rangle$, s
 \item provide an example of a Hilbert space $H$ and a subspace $V$ which is not closed in $H$ and provide $f \in H$ such that $\pi_V(f)$ does not exist. 
 \end{enumerate}
 
-\section{A reproducing kernel is positive definite}
+\section{A Reproducing Kernel is Positive Definite}
 Let $H$ be a RKHS of functions $\mathcal{X} \mapsto \mathbb{R}$ with reproducing kernel K. This means that 
 \begin{enumerate}
 \item for any $y \in \mathcal{X}$, $K(.,y) \in H$
@@ -227,7 +227,7 @@ Accounting for the sign of the square root term,
 	|f(x)| \le ||f||_{\mathcal H} \sqrt{K(x,x)}.
 \end{equation}
 
-\section{RKHS over a finite set}
+\section{RKHS Over a Finite Set}
 Let $\mathcal{X} = \{-m,\ldots,-1,0,1,\ldots,m\}$. Let $K$ be a positive definite kernel over $\mathcal{X}$ for which the $(2m+1,2m+1)$ matrix $K$ such that $K_{ij}=K(i,j)$ is invertible. We have seen in class that the RKHS with reproducing kernel $K$ is the vector space $\mathbb{R}^{2m+1}$ with inner product, 
 $$\langle f,g \rangle = f^T K^{-1}g $$
 where $f=(f_1,\ldots,f_{2m+1})^T$ and $f_i=f(i-m-1)$ and similarly for $g$. 
@@ -237,11 +237,11 @@ where $C>0$ is a constant.
 \begin{enumerate}
 \item This distribution is Multivariate Normal MVN$(\mu,\Sigma)$. What are the parameters $\mu$ and $\Sigma$?
 
-	\textbf{Solution:} MVN$(\mu, \Sigma)$ PDF can be defined as 
+\textbf{Solution:} MVN$(\mu, \Sigma)$ PDF can be defined as 
 	\begin{equation}
 		p(x) = \frac{1}{(2\pi)^{k/2} \text{det}(\Sigma)^{1/2}} e^{- \frac{1}{2} (x-\mu)^T \Sigma^{-1} (x-\mu) }. 
 	\end{equation}
-	From the distribution of sample elements, it can be observed that 
+From the distribution of sample elements, it can be observed that 
 	\begin{equation}
 		\begin{cases}
 			\mu &= \mathbf 0 \\	
@@ -251,7 +251,8 @@ where $C>0$ is a constant.
 
 \item What is the constant $C$?
 
-	\textbf{Solution:} Comparing the MVN form against the sample distribution, it is evident that \begin{equation}
+\textbf{Solution:} Comparing the MVN form against the sample distribution, it is evident that 
+	\begin{equation}
 		C = \frac{1}{(2\pi)^{m+1/2} \text{det} (K)^{1/2}}. 
 	\end{equation}
 	
@@ -259,14 +260,30 @@ where $C>0$ is a constant.
 \begin{enumerate}
 \item Gaussian kernel $K_\tau(i,j)=e^{-\frac{1}{2\tau^2}(i-j)^2}$
 
-Note: you should obtain a figure similar to the figure \ref{fig:Gauss}. 
+\textbf{Solution:} See Figure \ref{fig:example}.
+
 \item Show more examples with the same kernel and different parameter $\tau$. Comment on the results. 
+
+\textbf{Solution:} See Figure \ref{fig:example}. For higher values of $\tau$, the function appears smoother. 
+
 \item Show more examples with 2 different kernels of your choice. 
-\begin{figure}
-	\centering 
-\includegraphics[width=0.7\textwidth]{./Gauss.pdf}
-\caption{\label{fig:Gauss}Example of 10 samples of functions of the RKHS over $\{-10,\ldots,10\}$ with the Gaussian kernel, $\tau=10$.}
+
+\textbf{Solution:} See Figure \ref{fig:example}. The polynomial kernel (for order 2) and min function were chosen.
+
+\begin{figure}%
+    \centering
+    \subfloat[Gaussian Kernel with Two $\tau$ Values]{{\includegraphics[width=7cm]{./img/gaussian_kernel_fig.eps} }}%
+    \qquad
+    \subfloat[Other Kernels]{{\includegraphics[width=7cm]{./img/other_kernel_fig.eps} }}%
+    \caption{Problem 3 Plots of Random Process Samples}%
+    \label{fig:example}%
 \end{figure}
+
+%\begin{figure}
+%	\centering 
+%\includegraphics[width=0.7\textwidth]{./Gauss.pdf}
+%\caption{\label{fig:Gauss}Example of 10 samples of functions of the RKHS over $\{-10,\ldots,10\}$ with the Gaussian kernel, $\tau=10$.}
+%\end{figure}
 \end{enumerate}
 \end{enumerate} 
 \end{document}

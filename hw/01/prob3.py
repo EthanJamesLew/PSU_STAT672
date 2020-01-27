@@ -1,6 +1,10 @@
 
 import numpy as np
-#import scipy.special.jv 
+from scipy.special import jv 
+
+#from matplotlib import rc
+#rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+#rc('text', usetex=True)
 
 ##KERNELS
 def k_polynomial(x, xp, d):
@@ -14,8 +18,12 @@ def k_gaussian(x, xp, sigma):
 def k_tanh(x, xp, kappa, Theta):
     return np.tanh(kappa * np.dot(x, xp) + Theta)
 
-#def k_bessel(x, xp, n, v, sigma):
-#    return jv(v, sigma*np.sum((x-xp)**2))/(np.sum((x-xp)**2)**(n*(v+1)))
+def k_bessel(x, xp, n, v, sigma):
+    return jv(v, sigma*np.sum((x-xp)**2))/(np.sum((x-xp)**2)**(-float(n*(v+1))))
+
+
+def k_min(x, xp):
+    return np.min([x, xp])
 
 def kernel_mat(f, x):
     '''
@@ -48,8 +56,7 @@ def plot_samples(ax, f, title):
     for fi in f:
         ax.plot(X, fi)
     ax.set_title(title)
-    ax.set_xlabel("x")
-    ax.set_ylabel("f_i(x)")
+    ax.set_ylabel(r"$f_i(x)$")
     ax.set_xlim((np.min(X), np.max(X)))
 
 if __name__ == "__main__":
@@ -61,16 +68,23 @@ if __name__ == "__main__":
     X, f0 = sample_functions(m, N, lambda x,y: k_gaussian(x, y, 3))
     X, f1 = sample_functions(m, N, lambda x,y: k_gaussian(x, y, 10))
     X, f2 = sample_functions(m, N, lambda x,y: k_polynomial(x, y, 2))
-    #X, f3 = sample_functions(m, N, lambda x,y: k_bessel(x, y, 2,1,1))
+    X, f3 = sample_functions(m, N, lambda x,y: k_min(x, y))
     
     # Plot Results
-    figg, axg = plt.subplots((2))
-    figk, axk = plt.subplots((2))
-    plot_samples(axg[0], f0, "Samples for tau = 3")
-    plot_samples(axg[1], f1, "Samples for tau = 10")
+    figg, axg = plt.subplots((2), sharex=True, figsize=(4,8))
+    figk, axk = plt.subplots((2), sharex=True, figsize=(4,8))
+    plot_samples(axg[0], f0, r"Samples for $\tau = 3$")
+    plot_samples(axg[1], f1, r"Samples for $\tau = 10$")
+    axg[1].set_xlabel(r"$x$")
     
-    plot_samples(axk[0], f2, "Samples for Polynomial Kernel d=2")
-    plot_samples(axk[0], f2, "Samples for Polynomial Kernel d=2")
+    plot_samples(axk[0], f2, r"Samples for Polynomial Kernel $d=2$")
+    plot_samples(axk[1], f3, r"Samples for $K(x, y) =\operatorname{min}(x, y)$")
+    axk[1].set_xlabel(r"$x$")
+
+    plt.figure(figg.number)
+    plt.savefig("img/gaussian_kernel_fig.eps")
+    plt.figure(figk.number)
+    plt.savefig("img/other_kernel_fig.eps")
 
     plt.show()
 
