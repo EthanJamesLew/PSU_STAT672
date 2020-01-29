@@ -142,7 +142,26 @@ Hint: verify that $\langle f,\pi_V(g)\rangle=\langle\pi_V(f),\pi_V(g)\rangle$, s
 	\end{aligned}
 \end{equation}
 
-\item provide an example of a Hilbert space $H$ and a subspace $V$ which is not closed in $H$ and provide $f \in H$ such that $\pi_V(f)$ does not exist. 
+\item Provide an example of a Hilbert space $H$ and a subspace $V$ which is not closed in $H$ and provide $f \in H$ such that $\pi_V(f)$ does not exist. 
+
+	\textbf{Solution:} Permit $H = L^2([0,1])$, meaning that it contains all functions satisfying 
+	\begin{equation}
+	H = \left\{f : [0,1] \rightarrow \mathbb R \middle| \quad \int_0^1 |f(x)|^2 dx < \infty \right\}.
+	\end{equation}
+	Let $V \subset H$ be all polynomials in $H$, 
+	\begin{equation}
+		V = \operatorname{span}\left( \left\{ x^k: k \in \mathbb Z \right\} \right).
+	\end{equation}
+	For $f(x) = e^x, f \in H$, its orthogonal projection on $V$ is 
+	\begin{equation}
+		\pi_V (f) = \operatorname*{argmin}_{g \in V} || f - g ||_H^2.
+	\end{equation}
+	From Taylor expansion, it is clear that the minimizer can be found 
+	\begin{equation}
+		f(x) = e^x = \sum_{k=0}^{\infty} \frac{x^k}{k!}. 
+	\end{equation}
+	For any $v \in V$, another $v' \in V$ can be produced that makes the objective function smaller. Thus, the orthogonal projection $\pi_V(f)$ on the non-closed subspace $V$ of $H$ doesn't exist.  
+	
 \end{enumerate}
 
 \section{A Reproducing Kernel is Positive Definite}
@@ -240,6 +259,11 @@ where $C>0$ is a constant.
 	\begin{equation}
 		p(x) = \frac{1}{(2\pi)^{k/2} \text{det}(\Sigma)^{1/2}} e^{- \frac{1}{2} (x-\mu)^T \Sigma^{-1} (x-\mu) }. 
 	\end{equation}
+Also, note that 
+\begin{equation}
+	|| f ||^2_{H} = \langle f, f \rangle = f^T K^{-1} f.
+\end{equation}
+
 From the distribution of sample elements, it can be observed that 
 	\begin{equation}
 		\begin{cases}
