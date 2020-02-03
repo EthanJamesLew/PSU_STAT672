@@ -4,7 +4,7 @@ from label_data import PartitionData, LabelData
 import time
 from krr import KernelRidgeRegression
 
-mndata = MNIST('mnist')
+mndata = MNIST('mnist-data')
 Xt, Yt = mndata.load_training()
 Xv, Yv = mndata.load_testing()
 

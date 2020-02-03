@@ -14,7 +14,7 @@ class KernelPCA:
         self.X = None
 
         # kernel
-        self.kernel = np.dot 
+        self._kernel = lambda x,y: np.dot(x,y) 
 
         # dimension of observations
         self.ndim = None 
@@ -28,9 +28,9 @@ class KernelPCA:
         :param X (n x d)
         '''
         if self.X is None:
+            self.ndim = X.shape[1]
             self.X = X
         else:
-            self.ndim = self.X.shape[1]
             if self.X.shape[1] != self.ndim:
                 raise Exception("Observations must be of {0} dimension!".format(self.ndim))
             self.X = np.vstack((self.X, X))
@@ -51,11 +51,11 @@ class KernelPCA:
 
     def add_kernel(self, kernel):
         self._check_kernel(kernel)
-        self.kernel = kernel 
+        self._kernel = kernel 
 
     @property
     def kernel(self):
-        return self.kernel 
+        return self._kernel  
 
     @kernel.setter
     def kernel(self, kernel):
@@ -89,7 +89,10 @@ class KernelPCA:
             raise Exception("KPCA hasn't been trained yet!")
         if Xp.shape[1] != self.ndim:
             raise Exception("X value dimension don't match training data dimension!")
-        return self.U.T @ Xp 
+        return self.U.T @ Xp
+
+    def get_U(self):
+        return self.U
 
     def __call__(self, Xp):
         return self.transform(Xp)
