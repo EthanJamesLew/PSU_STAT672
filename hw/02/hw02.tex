@@ -121,7 +121,6 @@ for $\alpha_1,...,\alpha_m \in \mathbb R$, $x_1,...,x_m \in \mathcal X$. Manipul
 \end{equation}
 
 	
-\noindent
 Let $H_c$ be the RKHS with reproducing kernel $H_c$. 
 \item (**) Verify that for any $f \in H_c$, 
 \begin{equation}
@@ -190,7 +189,7 @@ Factoring,
 \end{equation}
 up to numerical errors.  
 \begin{figure}
-\includegraphics[width=0.5\textwidth]{Gauss}
+\includegraphics[width=0.5\textwidth]{Gauss.pdf}
 \caption{\label{fig:Gauss_constraint}Example of 10 samples of \lq{}\rq{}functions\rq\rq{} of the RKHS over $\{-10,\ldots,10\}$ with the Gaussian kernel, $\tau=10$ under the centering constraint $\frac{1}{11}\sum_{i=-10}^0 f(i)=0$}
 \end{figure}
 \end{enumerate}
@@ -211,6 +210,46 @@ f_i=\sum_{j=1}^n \alpha_{ij} K(.,x_j), \mbox{ with } \alpha_i = \lambda_i^{-\fra
 \langle f_i,f_k \rangle_H=\delta_{ik}
 \end{equation}
 where $\delta_{ik}=1$ if $i=k$ and $\delta_{ik}=0$ if $i \not = k$. 
+
+\textbf{Solution:} Substitute the full expression for $f_i$,
+\begin{equation}
+	\begin{aligned}
+	\langle f_i, f_k \rangle_{H} &= \langle \sum^{n}_{j=1} \lambda^{-1/2} u_{ij} K(., x_j), \sum^{n}_{l=1} \lambda^{-1/2}_k u_{kl} K(., x_l)   \rangle_H \\
+				     &= \sum^{n}_{j=1} \sum^{n}_{l=1} \lambda_k^{-1/2} \lambda_i^{-1/2} u_{ij} u_{kl} \langle K(., x_j), K(., x_l) \rangle_H. \\  
+	\end{aligned}
+\end{equation}
+Define a matrix $K \in \mathbb R^{n \times n}$,
+\begin{equation}
+	[K]_{ij} = K(x_i, x_j).
+\end{equation}
+This permits the form,
+\begin{equation}
+	\begin{aligned}
+		\right( \lambda_i^{-1/2} u_i^T \left) K \left( \lambda_k^{-1/2} u_k \right) = \left( \lambda_i^{-1/2} \lambda_k^{-1/2} \right) u_i^T K u_k.
+	\end{aligned}
+\end{equation}
+As $K$ is positive definite, it permits eigendecomposition, 
+\begin{equation}
+K =  U\Lambda U^T,\quad UU^T = I, \quad [\Lambda]_{ii} = \lambda_i.
+\end{equation}
+Substitute the decomposition,
+\begin{equation}
+	\begin{aligned}
+		\left( \lambda_i^{-1/2} \lambda_k^{-1/2} \right) \left(u_i^T U \right) \Lambda \left( U^T u_k \right) &=  \left( \lambda_i^{-1/2} \lambda_k^{-1/2} \right) e_i \Lambda e_j \\
+	&= \begin{cases}
+		1 \quad i = j \\
+		0 \quad i \ne j \\
+	\end{cases}\\
+	&= \delta_{ij}.
+	\end{aligned}
+\end{equation}
+
+
+
+
+
+
+
 \item Show that the orthogonal projection of any $f \in H$, the RKHS with kernel $K$ onto 
 \begin{equation}
 V=span\{f_1,\ldots,f_n\}
@@ -219,6 +258,22 @@ V=span\{f_1,\ldots,f_n\}
 \pi_v(f)=\langle f,f_1\rangle_H f_1+\ldots,\langle f,f_n\rangle_H f_n
 \end{equation}
 
+\textbf{Solution:} A function $\pi_V : H \rightarrow H$ is an orthogonal projection if it satisfies two properties,
+\begin{enumerate}[(i)]
+	\item \[
+			\pi_V(f) \in V
+	\]
+	\item \[
+			\langle f- \pi_V(f), g \rangle_H = 0, \forall g \in V
+	\] 
+\end{enumerate}
+$V$ can be defined as,
+\begin{equation}
+	V = \left\{ f: f = \sum^{n}_{i=1} \alpha_i f_i, \alpha_i \in \mathbb R   \right\}.
+\end{equation}
+It is clear, then, that $\pi_V(f)$ is in $V$ as $\langle f, f_i \rangle_H$ can be set as $\alpha_i$, satisfying the first condition. 
+
+
 Now, let us project the feature functions of $x_1,\ldots,x_n$, that is $K(.,x_1), \ldots K(.,x_n)$. Show that 
  \begin{equation}
 \langle K(.,x_k),f_i \rangle = \lambda_i^\frac{1}{2} u_{ki}
@@ -226,9 +281,8 @@ Now, let us project the feature functions of $x_1,\ldots,x_n$, that is $K(.,x_1)
 \item Perform kernel PCA on the MNIST dataset. Choose the digits 1 and 7. Start with the linear kernel $G(x,y)=x^Ty$. Sample $n=500$ digits. Show 8 projections onto the first 8 principal directions. Do not forget to center the kernel. your result should look like Figure \ref{fig:kpca}. 
 \item Redo the same but this time with a non linear kernel of your choice. 
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{kpca-mnist-linear}
+\includegraphics[width=0.8\textwidth]{kpca-mnist-linear.pdf}
 \caption{\label{fig:kpca}Example of resu;ts with Kernel PCA}
 \end{figure}
- 
 \end{enumerate}
 \end{document}
