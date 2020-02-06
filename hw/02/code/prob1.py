@@ -51,4 +51,5 @@ if __name__ == "__main__":
     plot_samples(axg, X, f0, r"Samples for $\tau = 10$")
     axg.set_xlabel(r"$x$")
 
+    plt.savefig("../img/problem1.eps")
     plt.show()
