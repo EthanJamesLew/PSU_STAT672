@@ -82,7 +82,7 @@
     \begin{center}
     \framebox{
         \vbox{\vspace{2mm}
-            \hbox to 6.28in { {\bf STAT 672: Statistical Learning I
+            \hbox to 6.28in { {\bf STAT 672: Statistical Learning II
             \hfill Winter 2020} }
         \vspace{4mm}
         \hbox to 6.28in { {\Large \hfill Homework #1 \hfill} }
@@ -98,6 +98,7 @@
 }
 
 \begin{document}
+\homework{2}{February 5th, 2020}{Ethan Lew}{Bruno Jedynak}
 \section{Kernel centering}
 Let $\mathcal{X}$ be a non empty set, $K$ a kernel over $\mathcal{X}$ and $H$ the RKHS with kernel $K$. Let $x_1,\ldots,x_n$, be $n$ points in $\mathcal{X}$. 
 
@@ -118,6 +119,21 @@ for $\alpha_1,...,\alpha_m \in \mathbb R$, $x_1,...,x_m \in \mathcal X$. Manipul
 		&= \sum^{m}_{i=1} \sum^{m}_{j=1} \alpha_i \alpha_j K(x_i, x_j) - 2 \sum^{m}_{i=1} \sum^{m}_{j=1} \alpha_i \alpha_j \bar f(x_i)  + \sum^{m}_{i=1} \sum^{m}_{j=1} \alpha_i \alpha_j || \bar f ||_{\mathcal H}^2 \\
 		&= \left| \left| \sum^{m}_{i=1} \alpha_i K(., x_i)  \right| \right|^2_{\mathcal H} + \left| \left| \sum^{m}_{i=1} \alpha_i f  \right| \right|^2_{\mathcal H} - 2 \langle \sum^{m}_{i=1} \alpha_i K(., x_i), \sum^{m}_{i=1} \alpha_i \bar f  \rangle_{\mathcal H}  
 	\end{aligned}
+\end{equation}
+As,
+\begin{equation}
+	 \left| \left| \sum^{m}_{i=1} \alpha_i K(., x_i)  \right| \right|^2_{\mathcal H} + \left| \left| \sum^{m}_{i=1} \alpha_i f  \right| \right|^2_{\mathcal H} \ge  2 \langle \sum^{m}_{i=1} \alpha_i K(., x_i), \sum^{m}_{i=1} \alpha_i \bar f  \rangle_{\mathcal H}, 
+\end{equation}
+$K_c$ meets the positive definite condition.
+
+Alternatively, the PD condition can be seen as the norm of a difference,
+\begin{equation}
+	\begin{aligned}
+		\sum^{m}_{i=1} \sum^{m}_{j=1} \alpha_i \alpha_j \langle K(., x_i) - \bar f, K(., x_j) - \bar f \rangle &= \langle \sum^{m}_{i=1} \alpha_i K(x_i, .), \sum^{m}_{i=1} \alpha_i K(x_i,.)   \rangle \\
+														       &= \left| \left| \sum^{m}_{i=1} \alpha_i K(x_i, .)  \right| \right| \\
+														       &\ge 0.
+	\end{aligned}
+
 \end{equation}
 
 	
@@ -151,10 +167,10 @@ p(f)=Ce^{-\frac{||f||^2}{2}}
 Here, you are asked to do the same thing but over the RKHS of a centered kernel $K_c$. Specifically, choose  $m=10$, $n=11$, $x_1=-10,x_2=-9,\ldots,x_{11}=0$. 
 \item (**) Write $K_c$ in term of $K$ using matrix operations. 
 
-	Perform the substitution $\bar f (.) = \frac{1}{n} \sum^{n}_{i=1} K(., x_i)$,
+	\textbf{Solution:} Perform the substitution $\bar f (.) = \frac{1}{n} \sum^{n}_{i=1} K(., x_i)$,
 	\begin{equation}
 		\begin{aligned}
-			\langle K(., x) - \bar f(.), K(., y) - \bar f(.) \rangle_{\mathcal H} &= \langle K() - \frac{1}{n} \sum^{n}_{i=1} K(., x_i) , K(., y) - \frac{1}{n} \sum^{n}_{i=1} K(., x_i)  \rangle_{\mathcal H} \\
+			\langle K(., x) - \bar f(.), K(., y) - \bar f(.) \rangle_{\mathcal H} &= \langle K(x,y) - \frac{1}{n} \sum^{n}_{i=1} K(., x_i) , K(., y) - \frac{1}{n} \sum^{n}_{i=1} K(., x_i)  \rangle_{\mathcal H} \\
 											      &= K(x,y) - \frac{1}{n} \sum^{n}_{i=1} K(x, x_i) - \frac{1}{n} \sum^{n}_{i=1} K(y, x_i) + \frac{1}{n^2} \sum^{n}_{i=1} \sum^{n}_{j=1} K(x_i, x_j).        
 		\end{aligned}
 	\end{equation}
@@ -183,15 +199,24 @@ Factoring,
 	K_c = (I-U)K(I-U).
 \end{equation}
 
-\item Choose the Gaussian kernel with $\tau=10$, and show 10 samples. Figure \ref{fig:Gauss_constraint} shows examples of what you should find. Check that for each curve $f$, 
+\item Choose the Gaussian kernel with $\tau=10$, and show 10 samples. Check that for each curve $f$, 
 \begin{equation}
 \frac{1}{11}\sum_{i=-10}^0 f(i)=0
 \end{equation}
-up to numerical errors.  
+up to numerical errors.
+
+\textbf{Solution:} The code was shown to be within numerical error of zero. See Figure \ref{fig:gauss_prob1} for the samples plot.
+
 \begin{figure}
-\includegraphics[width=0.5\textwidth]{Gauss.pdf}
-\caption{\label{fig:Gauss_constraint}Example of 10 samples of \lq{}\rq{}functions\rq\rq{} of the RKHS over $\{-10,\ldots,10\}$ with the Gaussian kernel, $\tau=10$ under the centering constraint $\frac{1}{11}\sum_{i=-10}^0 f(i)=0$}
+	\centering
+\includegraphics[width=0.5\textwidth]{./img/problem1.eps}
+\caption{\label{fig:gauss_prob1} Samples of the Gaussian Process for the Kernel}
 \end{figure}
+
+%\begin{figure}
+%\includegraphics[width=0.5\textwidth]{Gauss.pdf}
+%\caption{\label{fig:Gauss_constraint}Example of 10 samples of \lq{}\rq{}functions\rq\rq{} of the RKHS over $\{-10,\ldots,10\}$ with the Gaussian kernel, $\tau=10$ under the centering constraint $\frac{1}{11}\sum_{i=-10}^0 f(i)=0$}
+%\end{figure}
 \end{enumerate}
 
 \section{Kernel PCA}
@@ -225,12 +250,12 @@ Define a matrix $K \in \mathbb R^{n \times n}$,
 This permits the form,
 \begin{equation}
 	\begin{aligned}
-		\right( \lambda_i^{-1/2} u_i^T \left) K \left( \lambda_k^{-1/2} u_k \right) = \left( \lambda_i^{-1/2} \lambda_k^{-1/2} \right) u_i^T K u_k.
+		\left( \lambda_i^{-1/2} u_i^T \right) K \left( \lambda_k^{-1/2} u_k \right) = \left( \lambda_i^{-1/2} \lambda_k^{-1/2} \right) u_i^T K u_k.
 	\end{aligned}
 \end{equation}
 As $K$ is positive definite, it permits eigendecomposition, 
 \begin{equation}
-K =  U\Lambda U^T,\quad UU^T = I, \quad [\Lambda]_{ii} = \lambda_i.
+	K =  U\Lambda U^T,\quad UU^T = I, \quad [\Lambda]_{ij} = \begin{cases} \lambda_i \quad i = j \\ 0 \quad i \ne j \end{cases}.
 \end{equation}
 Substitute the decomposition,
 \begin{equation}
@@ -248,17 +273,15 @@ Substitute the decomposition,
 
 
 
-
-
 \item Show that the orthogonal projection of any $f \in H$, the RKHS with kernel $K$ onto 
 \begin{equation}
-V=span\{f_1,\ldots,f_n\}
+	V=\operatorname{span}\left(\{f_1,\ldots,f_n\}\right)
 \end{equation} is 
 \begin{equation}
 \pi_v(f)=\langle f,f_1\rangle_H f_1+\ldots,\langle f,f_n\rangle_H f_n
 \end{equation}
 
-\textbf{Solution:} A function $\pi_V : H \rightarrow H$ is an orthogonal projection if it satisfies two properties,
+\textbf{Solution:} A function $\pi_V : H \rightarrow V$ is an orthogonal projection if it satisfies two properties,
 \begin{enumerate}[(i)]
 	\item \[
 			\pi_V(f) \in V
@@ -271,18 +294,81 @@ $V$ can be defined as,
 \begin{equation}
 	V = \left\{ f: f = \sum^{n}_{i=1} \alpha_i f_i, \alpha_i \in \mathbb R   \right\}.
 \end{equation}
-It is clear, then, that $\pi_V(f)$ is in $V$ as $\langle f, f_i \rangle_H$ can be set as $\alpha_i$, satisfying the first condition. 
+It is clear, then, that $\pi_V(f)$ is in $V$ as $\langle f, f_i \rangle_H$ can be set as $\alpha_i$, satisfying the first condition.
 
+Next, recall that all $g \in V$ can take the form,
+\begin{equation}
+	g = \sum^{n}_{i=1} \beta_i f_i. 
+\end{equation}
+Substitute that into the second condition,
+\begin{equation}
+	\begin{aligned}
+		\langle f - \pi_V(f), g \rangle &= \langle f - \sum^{n}_{i=1} \langle f, f_i \rangle f_i, \sum^{n}_{i=1} \beta_i f_i   \rangle \\
+						&= \langle f, \sum^{n}_{i=1} \beta_i f_i \rangle - \langle \sum^{n}_{i=1} \langle f, f_i \rangle f_i, \sum^{n}_{j=1} \beta_j f_j   \rangle \\
+						&= \sum^{n}_{i=1} \beta_i \langle f, f_i \rangle - \sum^{n}_{i=1} \sum^{n}_{j=1}  \langle f, f_j \rangle \beta_i \langle f_i, f_j \rangle.  
+	\end{aligned}
+\end{equation}
+Recall that $ \langle f_i, f_j \rangle = \delta_{ij}$,
+\begin{equation}
+\begin{aligned}
+	\langle f - \pi_V(f), g \rangle &= \sum^{n}_{i=1} \beta_i \langle f, f_i \rangle - \sum^{n}_{i=1} \beta_i \langle f, f_i \rangle \\
+					&= 0.
+\end{aligned}	
+\end{equation}
 
 Now, let us project the feature functions of $x_1,\ldots,x_n$, that is $K(.,x_1), \ldots K(.,x_n)$. Show that 
  \begin{equation}
 \langle K(.,x_k),f_i \rangle = \lambda_i^\frac{1}{2} u_{ki}
 \end{equation}
-\item Perform kernel PCA on the MNIST dataset. Choose the digits 1 and 7. Start with the linear kernel $G(x,y)=x^Ty$. Sample $n=500$ digits. Show 8 projections onto the first 8 principal directions. Do not forget to center the kernel. your result should look like Figure \ref{fig:kpca}. 
-\item Redo the same but this time with a non linear kernel of your choice. 
+Substitute the value of $f_i$ as a linear combination of $K(., x_j)$,
+\begin{equation}
+	\begin{aligned}
+		\langle K(., x_k), f_i \rangle &= \langle K(., x_k), \sum^{n}_{j=1} \left( \lambda_i^{-1/2} u_i \right)_j K(.,x_j)  \rangle	\\
+					       &= \sum^{n}_{j=1} \left( \lambda^{-1/2}_i u_i \right) \langle K(., x_k), K(., x_j) \rangle \\
+					       &= \sum^{n}_{j=1} \left( \lambda_{i}^{-1/2} u_i \right) K(x_j, x_k) \\
+	\end{aligned}
+\end{equation}
+Express in matrix-vector form and eigendecompose $K$,
+\begin{equation}
+	\begin{aligned}
+	\lambda_i^{-1/2}K u_i &= \lambda^{-1/2}_i U \Sigma U^T u_i \\
+			      &= U \Sigma \lambda_i^{-1/2} e_i \\
+			      &= U \lambda_i^{1/2} e_i \\
+			      &= u_i \lambda_i^{1/2}. 
+	\end{aligned}
+\end{equation}
+
+
+\item Perform kernel PCA on the MNIST dataset. Choose the digits 1 and 7. Start with the linear kernel $G(x,y)=x^Ty$. Sample $n=500$ digits. Show 8 projections onto the first 8 principal directions. Do not forget to center the kernel. 
+
+	\textbf{Solution:} See Figure \ref{fig:kpca_lin}.
+
+\item Redo the same but this time with a non linear kernel of your choice.
+
+	\textbf{Solution:} See Figures \ref{fig:kpca_gauss} and \ref{fig:kpca_poly}.
+
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{kpca-mnist-linear.pdf}
-\caption{\label{fig:kpca}Example of resu;ts with Kernel PCA}
+	\centering 
+\includegraphics[width=0.8\textwidth]{./img/kpca_linear.eps}
+\caption{\label{fig:kpca_lin}KPCA Using a Linear Kernel}
 \end{figure}
+
+\begin{figure}
+	\centering 
+\includegraphics[width=0.8\textwidth]{./img/kpca_gaussian_5.eps}
+\caption{\label{fig:kpca_gauss}KPCA Using a Gaussian Kernel ($\tau = 5$)}
+\end{figure}
+
+
+\begin{figure}
+	\centering
+\includegraphics[width=0.8\textwidth]{./img/kpca_polynomial_3.eps}
+\caption{\label{fig:kpca_poly}KPCA Using a Polynomial Kernel ($d=3$)}
+\end{figure}
+
+%\begin{figure}
+%\includegraphics[width=0.8\textwidth]{kpca-mnist-linear.pdf}
+%\caption{\label{fig:kpca}Example of resu;ts with Kernel PCA}
+%\end{figure}
 \end{enumerate}
 \end{document}
