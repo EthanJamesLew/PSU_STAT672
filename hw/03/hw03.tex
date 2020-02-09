@@ -98,7 +98,7 @@
 }
 
 \begin{document}
-\homework{2}{February 5th, 2020}{Ethan Lew}{Bruno Jedynak}
+\homework{3}{February 12th, 2020}{Ethan Lew}{Bruno Jedynak}
 
 \section{Kernel approximation}
 Kernel methods typically require to compute the kernel $(p,p)$ matrix 
@@ -124,6 +124,35 @@ Assume that $K_n$, the $(n,n)$ matrix with elements $[K_n]_{ij}=K(z_i,z_j)$ is p
 \begin{equation}
 \pi_V K(.,x) = \sum_{i=1}^n \alpha_i(x)K(.,x_i) \mbox{ with } \alpha_i(x)=K_n^{-1}K(x,Z)
 \end{equation}
+
+\textbf{Solution:} Recall that the orthogonal projection $\pi_V(f)$ can be found by the optimization problem,
+\begin{equation}
+	\pi_V(f) = \operatorname*{argmin}_{g \in V} || g - f ||_{\mathcal H}^2.
+\end{equation}
+From the problem statement, it is clear that $g$ can be represented as,
+\begin{equation}
+	V = \operatorname{span}(\{K(.,z_i): 1 \le i \le n\}) \implies g = \sum^{n}_{i=1} \alpha_i K(., z_i). 
+\end{equation}
+Return to the original statement, $\pi_V(K(.,x))$,
+\begin{equation}
+	\alpha' = \operatorname*{argmin}_{\alpha \in \mathbb R^n} J(\alpha) = \operatorname*{argmin}_{\alpha \in \mathbb R^n} \left|\left|K(., x) - \sum^{n}_{i=1} \alpha_i K(., z_i) \right|\right|_{\mathcal H}^2.
+\end{equation}
+Manipulate the expression,
+\begin{equation}
+	\begin{aligned}
+		\left|\left|K(., x) - \sum^{n}_{i=1} \alpha_i K(., z_i) \right|\right|_{\mathcal H}^2 &= K(x,x) - 2 \sum^{n}_{i=1} \alpha_i K(x, z_i) + \sum^{n}_{i=1} \sum^{n}_{l=1} \alpha_i \alpha_l K(z_i, z_l)\\
+												      &= K(x,x) - 2 K(x, Z)^T \alpha + \alpha^T K_n \alpha \\ 
+	\end{aligned}
+\end{equation}
+Find the gradient of the LHS,
+\begin{equation}
+	\nabla_\alpha J(\alpha) = -2 K(x, Z) + 2 K_n \alpha. 
+\end{equation}
+Setting to zero, it is clear that 
+\begin{equation} \label{eq:alpha_opt}
+	\alpha' = K_n^{-1} K(x, Z).
+\end{equation}
+
 \item show that 
 \begin{equation}
  \langle \pi_V(K(.,x),\pi_V(K(.,y) \rangle_H = K(x,Z)^T K_n^{-1} K(y,Z)
@@ -133,8 +162,48 @@ Assume that $K_n$, the $(n,n)$ matrix with elements $[K_n]_{ij}=K(z_i,z_j)$ is p
  \begin{equation}
 K(x,y) \sim \phi(x)^T \phi(y) 
 \end{equation}  
- where $\phi(.)=K_n^{-\frac{1}{2}}K(.,Z)$ is a vector in $\mathbb{R}^n$
-\item Show that the RKHS over $\mathcal{X}$ with kernel $G(x,y)=\phi(x)^T\phi(y)$ is made of the functions $f_w(.)=w^T\phi(.)$, where $w \in \mathbb{R}^d$. 
+ where $\phi(.)=K_n^{-\frac{1}{2}}K(.,Z)$ is a vector in $\mathbb{R}^n$.
+
+ \textbf{Solution:} Use the results from Equation \ref{eq:alpha_opt} and apply the bilinearity property,
+ \begin{equation}
+	 \begin{aligned}
+		 \langle \pi_V(K(.,x),\pi_V(K(.,y) \rangle_H &= \langle K(x, Z)^T K_n^{-1} K(., Z), K(y, Z)^T K_n^{-1} K(., Z) \rangle_{\mathcal H}\\
+							     &= \sum^{n}_{i=1} \sum^{n}_{j=1} \left[ K(x, Z)^T K_n^{-1} \right]_i \left[ K(y, Z) K_n^{-1} \right]_j K(x_i, x_j) \\
+							     &= \sum^{n}_{i=1} \sum^{n}_{j=1} \left[ K(y, Z) K_n^{-1} \right]_j K(x_i, x_j) \left[ K(x, Z) K_n^{-1} \right]^T_j \\
+							     &= K(y, Z) K_n^{-1} K_n K_n^{-1} K(x, Z) \\
+							     &= K(y, Z) K_n^{-1} K(x, Z) \\
+	 \end{aligned}
+ \end{equation}
+ 
+
+\item Show that the RKHS over $\mathcal{X}$ with kernel $G(x,y)=\phi(x)^T\phi(y)$ is made of the functions $f_w(.)=w^T\phi(.)$, where $w \in \mathbb{R}^d$.
+
+	\textbf{Solution:} To demonstrate the RKHS, it is necessary to find a Hilbert space and a kernel $K$ satisfying the properties,
+	\begin{enumerate}[(i)]
+		\item \[
+				\langle K(., x), f_w \rangle_{\mathcal H} = f_w(x)
+		\]
+		\item \[
+				\mathcal H = \operatorname{span}(\{K(., x): x \in \mathcal X\}) 
+		\] 
+	\end{enumerate}
+Note that the second condition is satisfied trivially as
+\begin{equation}
+	g \in V \implies g = \sum^{n}_{i=1} \alpha_i K(., x_i), \alpha \in \mathbb R^n. 
+\end{equation}
+Now, for the reproducing property,
+\begin{equation}
+	\begin{aligned}
+		\langle K(., x), f_w \rangle_{\mathcal H} &= \langle K(., x), w^T K_n^{-1/2} K(., Z) \rangle_{\mathcal H}\\
+							  &= \sum^{n}_{i=1} \left[ w^T K_n^{-1/2} \right]_i \langle K(., x), k(., z_i) \rangle_{\mathcal H} \\
+									     &= \sum^{n}_{i=1} \left[w^T K_n^{-1/2} \right]_i K(x, z_i)\\
+									     &= w^T K_n^{-1/2} K(x, Z) \\
+									     &= f_w(x).
+	\end{aligned}
+\end{equation}
+
+
+
  \end{enumerate}
  \section{Kernel K-means}
  
