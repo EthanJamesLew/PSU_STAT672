@@ -290,14 +290,41 @@ Thus, when $\mu \tau_j = \lambda_j$,
  \end{equation}
  \item Solve the clustering problem using a classical clustering algorithm, that is k-means or the Estimation Maximization algorithm (E.M.) fpr the data $\phi(x_1),\ldots,\phi(x_n)$
  \end{enumerate}
- Apply this to the data in file \mbox{kkm1.csv} for $k=2$. Use a package of your choice for the clustering algorithm. Show figures similar to the ones in figure 1, obtained with the Gaussian kernel in figures 1 and 2.  
+ Apply this to the data in file \mbox{kkm1.csv} for $k=2$. Use a package of your choice for the clustering algorithm. 
+ 
+ \textbf{Solution:} See Figures \ref{fig:orig} and \ref{fig:gauss}.
+
  \item Show some results with a different kernel;
+
+	 \textbf{Solution:} See Figure \ref{fig:poly}.
 \end{enumerate}  
-\begin{figure}
-	\centering 
-\includegraphics[width=0.3\textwidth]{img/data_for_kkm1.pdf}
-\includegraphics[width=0.3\textwidth]{img/kkmeans_feat.pdf}
-\includegraphics[width=0.3\textwidth]{img/kkmeans_orig.pdf}
-\caption{Kernel k-means}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/original_data.eps}
+	\caption{Data Supplied for This Problem}%
+	\label{fig:orig}
 \end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{./img/gaussian_1.eps}
+	\caption{Kernel $k$-Means with Gaussian Kernel $\tau=1$}%
+	\label{fig:gauss}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{./img/polynomial_2.eps}
+	\caption{Kernel $k$-Means with Polynomial Kernel $d=2$}%
+	\label{fig:poly}
+\end{figure}
+%\begin{figure}
+%	\centering 
+%\includegraphics[width=0.3\textwidth]{img/data_for_kkm1.pdf}
+%\includegraphics[width=0.3\textwidth]{img/kkmeans_feat.pdf}
+%\includegraphics[width=0.3\textwidth]{img/kkmeans_orig.pdf}
+%\caption{Kernel k-means}
+%\end{figure}
+
 \end{document}
