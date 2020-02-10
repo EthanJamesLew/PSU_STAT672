@@ -212,7 +212,7 @@ Now, for the reproducing property,
  Let $x_1,\ldots,x_n$ be $n$ points in a set $\mathcal{X}$. We have seen in class that the relaxation of the kernel k-means problem consists in solving 
  \begin{equation}
  \label{eq:kmeans}
- \max_{S,S^TS=I_k} \mbox{trace}\left(S^TKS\right)
+ \max_{S,S^T S=I_k} \mbox{trace}\left(S^T K S\right)
  \end{equation}
  where $S$ is an $(n,k)$ matrix, with $n>k$ and $K$ is a psd matrix with at least $k$ non-zero e-values. 
  \begin{enumerate}
@@ -221,7 +221,21 @@ Now, for the reproducing property,
  \begin{equation}
  \mbox{trace}S^TKS = \sum_{j=1}^k S_j^T K S_j
  \end{equation}
- Consider now the problem 
+
+ \textbf{Solution:} Given a matrix $A \in \mathbb R^{n \times n}$, its trace can be calculated with
+ \begin{equation}
+	 \operatorname{trace}(A) = \sum^{n}_{i=1} [A]_{ii}. 
+ \end{equation}
+ The $ij$ element of the $n\times n$ matrix $S^T KS$ is,
+ \begin{equation}
+	 [S^T K S]_{ij} = S_i^T K S_j.
+ \end{equation}
+ So,
+ \begin{equation}
+	 \operatorname{S^T K S}= \sum^{n}_{j=1} S_j^T K S_j. 
+ \end{equation}
+
+\item  Consider now the problem 
  \begin{equation}
  \label{eq:2}
  \max_{S,S_j^TS_j=1,j=1\ldots k} \mbox{trace}\left(S^TKS\right)
@@ -234,8 +248,38 @@ Now, for the reproducing property,
  \begin{equation}
  J(S,\lambda) =  \sum_{j=1}^k S_j^T K S_j - \sum_{j=1}^k \lambda_j S_j^TS_j
  \end{equation}
- \item Compute the gradients with respect to $S_j$ of $J(S,\lambda)$ for $j=1\ldots k$ and show that these gradients vanish when $S_1,\ldots,S_k$ are e-vectors of $K$ with e-values $\lambda_1,\ldots,\lambda_k$.  
- \item Choose these e-vectors to be orthogonal and with norm 1. Compute then $J(S,\lambda)$ and show that $\lambda_1,\ldots,\lambda_K$ have to be chosen to be the largest $k$ eigenvalues of $K$. 
+  Compute the gradients with respect to $S_j$ of $J(S,\lambda)$ for $j=1\ldots k$ and show that these gradients vanish when $S_1,\ldots,S_k$ are e-vectors of $K$ with e-values $\lambda_1,\ldots,\lambda_k$. 
+
+\textbf{Solution: } Take the gradient of $J$ with respect to $S_j$, 
+	 \begin{equation}
+	\nabla_{S_j} J(S, \lambda) = \sum^{k}_{j=1} 2K S_j - \sum^{k}_{j=1} 2 \lambda_j S_j.  \\
+\end{equation}
+Suppose that $\lambda_j$ is chosen such that it doesn't equal the $j^\text{th}$ largest eigenvalue of $K$. Such that,
+	 \begin{equation}
+		 K=U \Lambda U^T, \quad UU^T=I, [\Lambda]_{ij} \begin{cases} \tau_i, \quad i=j \\ 0 \quad i \ne j  \end{cases}.
+	 \end{equation}
+Now, given the eigendecomposition of $K=U\Lambda U^T$, consider $S_j = \mu u_j$,
+\begin{equation}
+\begin{aligned}
+	\sum^{k}_{j=1} 2 K S_j - \sum^{k}_{j=1} 2 \lambda_j S_j &= \sum^{k}_{j=1} 2 U \Lambda U^T S_j - \sum^{k}_{j=1} 2 \lambda_j S_j \\
+								&= \sum^{k}_{j=1} 2 \tau_j \mu  U e_j - \sum^{k}_{j=1} 2 \lambda_j u_j \\
+								&= \sum^{k}_{j=1} 2 u_j \mu \tau_j - \sum^{k}_{j=1} 2 u_j \lambda_j \\
+\end{aligned}
+\end{equation}
+Thus, when $\mu \tau_j = \lambda_j$,
+\begin{equation}
+	\left. \nabla_{S_j }J(S, \lambda)\right|_{S=\mu u_j, \lambda_j = \mu_j \tau_j }= 0.
+\end{equation}
+
+ \item Choose these e-vectors to be orthogonal and with norm 1. Compute then $J(S,\lambda)$ and show that $\lambda_1,\ldots,\lambda_K$ have to be chosen to be the largest $k$ eigenvalues of $K$.
+
+	 \textbf{Solution:} As the norm is $\mu=1$, substituting from above,
+	 \begin{equation}
+	 	S_j = \lambda_j u_j, \quad \lambda_j = \tau_j,
+	 \end{equation} 
+	 where $\lambda_j, u_j$ are the $j^\text{th}$ largest eigenvalue and associated eigenvector respectively. Recognizing that $K$ can be decomposed into a form that explicitly contains its eigencomponents in an ordered fashion simplified the analysis required. 
+
+
  \item Argue that you have solved (\ref{eq:kmeans}). 
  
  \item This provides a recipe for solving kernel k-means: 
