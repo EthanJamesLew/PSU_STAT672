@@ -232,7 +232,7 @@ Now, for the reproducing property,
  \end{equation}
  So,
  \begin{equation}
-	 \operatorname{S^T K S}= \sum^{n}_{j=1} S_j^T K S_j. 
+	 {S^T K S}= \sum^{n}_{j=1} S_j^T K S_j. 
  \end{equation}
 
 \item  Consider now the problem 
@@ -252,35 +252,67 @@ Now, for the reproducing property,
 
 \textbf{Solution: } Take the gradient of $J$ with respect to $S_j$, 
 	 \begin{equation}
-	\nabla_{S_j} J(S, \lambda) = \sum^{k}_{j=1} 2K S_j - \sum^{k}_{j=1} 2 \lambda_j S_j.  \\
+	\nabla_{S_j} J(S, \lambda) = 2K S_j -  2 \lambda_j S_j.  \\
 \end{equation}
-Suppose that $\lambda_j$ is chosen such that it doesn't equal the $j^\text{th}$ largest eigenvalue of $K$. Such that,
-	 \begin{equation}
-		 K=U \Lambda U^T, \quad UU^T=I, [\Lambda]_{ij} \begin{cases} \tau_i, \quad i=j \\ 0 \quad i \ne j  \end{cases}.
-	 \end{equation}
-Now, given the eigendecomposition of $K=U\Lambda U^T$, consider $S_j = \mu u_j$,
+It is desired to find the critical points of $\nabla_{S_j}J$. Accordingly,
 \begin{equation}
-\begin{aligned}
-	\sum^{k}_{j=1} 2 K S_j - \sum^{k}_{j=1} 2 \lambda_j S_j &= \sum^{k}_{j=1} 2 U \Lambda U^T S_j - \sum^{k}_{j=1} 2 \lambda_j S_j \\
-								&= \sum^{k}_{j=1} 2 \tau_j \mu  U e_j - \sum^{k}_{j=1} 2 \lambda_j u_j \\
-								&= \sum^{k}_{j=1} 2 u_j \mu \tau_j - \sum^{k}_{j=1} 2 u_j \lambda_j \\
-\end{aligned}
+	\begin{aligned}
+		\nabla_{S_j} J(S, \lambda) &= 2K S_j - 2 \lambda_j S_j = 0 \\
+								    &\implies 2 K S_j = 2 \lambda_j S_j \\
+								    &\implies K S_j = \lambda_j S_j\\
+	\end{aligned}
 \end{equation}
-Thus, when $\mu \tau_j = \lambda_j$,
-\begin{equation}
-	\left. \nabla_{S_j }J(S, \lambda)\right|_{S=\mu u_j, \lambda_j = \mu_j \tau_j }= 0.
-\end{equation}
+This implies, then, that $S_j$ is parallel to one of the eigenvectors of $K$. 
+
+%Suppose that $\lambda_j$ is chosen such that it doesn't equal the $j^\text{th}$ largest eigenvalue of $K$. Such that,
+%	 \begin{equation}
+%		 K=U \Lambda U^T, \quad UU^T=I, [\Lambda]_{ij} \begin{cases} \tau_i, \quad i=j \\ 0 \quad i \ne j  \end{cases}.
+%	 \end{equation}
+%	 Now, given the eigendecomposition of $K=U\Lambda U^T$, consider $S_j = \mu u_j$, where $\mu \in \mathbb R$ and $u_j$ is the $j^{\text{th}}$ eigenvector of $U$,
+%\begin{equation}
+%\begin{aligned}
+%	\sum^{k}_{j=1} 2 K S_j - \sum^{k}_{j=1} 2 \lambda_j S_j &= \sum^{k}_{j=1} 2 U \Lambda U^T S_j - \sum^{k}_{j=1} 2 \lambda_j S_j \\
+%								&= \sum^{k}_{j=1} 2 \tau_j \mu  U e_j - \sum^{k}_{j=1} 2 \lambda_j u_j \\
+%								&= \sum^{k}_{j=1} 2 u_j \mu \tau_j - \sum^{k}_{j=1} 2 u_j \lambda_j \\
+%\end{aligned}
+%\end{equation}
+%Thus, when $\mu \tau_j = \lambda_j$,
+%\begin{equation}
+%	\left. \nabla_{S_j }J(S, \lambda)\right|_{S=\mu u_j, \lambda_j = \mu_j \tau_j }= 0.
+%\end{equation}
 
  \item Choose these e-vectors to be orthogonal and with norm 1. Compute then $J(S,\lambda)$ and show that $\lambda_1,\ldots,\lambda_K$ have to be chosen to be the largest $k$ eigenvalues of $K$.
 
-	 \textbf{Solution:} As the norm is $\mu=1$, substituting from above,
+%	 \textbf{Solution:} As the norm is $\mu=1$, substituting from above,
+%	 \begin{equation}
+%	 	S_j = \lambda_j u_j, \quad \lambda_j = \tau_j,
+%	 \end{equation} 
+%	 where $\lambda_j, u_j$ are the $j^\text{th}$ largest eigenvalue and associated eigenvector respectively. Recognizing that $K$ can be decomposed into a form that explicitly contains its eigencomponents in an ordered fashion simplified the analysis required. 
+
+	 \textbf{Solution: } For $J(S, \lambda)$,
 	 \begin{equation}
-	 	S_j = \lambda_j u_j, \quad \lambda_j = \tau_j,
-	 \end{equation} 
-	 where $\lambda_j, u_j$ are the $j^\text{th}$ largest eigenvalue and associated eigenvector respectively. Recognizing that $K$ can be decomposed into a form that explicitly contains its eigencomponents in an ordered fashion simplified the analysis required. 
+		 \begin{aligned}
+			 J(S, \lambda) &= \sum^{k}_{j=1} u_j^T K u_j - \sum^{k}_{j=1} \lambda_j u_j^T u_j   \\
+								  &= \sum^{k}_{j=1} \lambda_j u_j^T u_j - \sum^{k}_{j=1} \lambda_j u_j^T u_j  \\  
+								  &= 0 .  
+		 \end{aligned}
+	 \end{equation}
+	 Make the substitution, $S_j = u_j$, where $u_j$ is some normalized eigenvector associated with an eigenvalue,
+	 \begin{equation}
+		 \begin{aligned}
+			 \operatorname{trace}(S^T K S) &= \sum^{k}_{j=1} u_j^T K u_j  \\
+								  &= \sum^{k}_{j=1} \lambda_j u_j^T u_j \\  
+								  &= \sum^{k}_{j=1} \lambda_j .  
+		 \end{aligned}
+	 \end{equation}
+	 It is clear, then, that this sum is maximized by choosing the $k$ largest eigenvalues. Thus, $S_j$ is the eigenvector associated with the $j^{\text{th}}$ largest eigenvalue, being the value chosen for $\lambda_j$.
 
 
- \item Argue that you have solved (\ref{eq:kmeans}). 
+ \item Argue that you have solved (\ref{eq:kmeans}).
+
+	 \textbf{Solution: } The critical points of the Lagrange multiplier find points where the objective function and constraints have gradients parallel to one another, differing by a factor of $\lambda$. When this is not the case, either the objective input or constraint input can be changed to result in a greater objective function. So, this approach was valid to find the maximum of Equation \ref{eq:kmeans}. 
+
+	 Intuitively, the process is akin to performing kernel PCA before clustering. The clustering now occurs in a space where observations are represented with an uncorrelated basis from a RKHS, structuring the data in a way that is potentially more accurate to cluster.
  
  \item This provides a recipe for solving kernel k-means: 
  \begin{enumerate}
