@@ -105,32 +105,113 @@
 \section{Multivariate Normal random Vectors (MVN)}
 
 Let $X \sim MVN(\mu,\Sigma)$. Let $\lambda_1 \geq \ldots \lambda_m > 0 = \lambda_{m+1} = \ldots = \lambda_n$ be the e-values of $\Sigma$. Let $u_1,\ldots,u_m$ be the e-vectors associated with these e-values and let 
-\begin{equation}
+\begin{equation} \label{eq:mvny}
 Y_i = (X-\mu)^T u_i, 1 \leq i \leq m
 \end{equation}
 then,  show the following: 
 \begin{enumerate}
 \item $Y_1,\ldots,Y_m$ are independent;
+
+\textbf{Solution: }First, it is evident that $Y_i, i \le i \le m$ is normally distributed as the linear combination of gaussian random  variables is also a gaussian random variable,
+	\begin{equation}
+		Y_i = (X - \mu)^T u_i = \sum^{d}_{k=1} X_k \left[ u_i \right]_k - \mu^T u_i. 
+	\end{equation}
+	
+	In the case of Multivariate Normal random variables, uncorrelatedness does imply independence. Hence, it is sufficient to show that the covariance between any two $Y_i, Y_j$ is zero, assuming $i \ne j$. Start by substituting Equation \ref{eq:mvny} into the covariance expression,
+	\begin{equation}
+		\begin{aligned}
+			\operatorname{cov} \left( Y_i, Y_j \right) &= \operatorname{cov} \left[ \left( x - \mu \right)^T u_i, \left( X - \mu \right)^T u_j \right] \\
+								   &= \operatorname{cov} \left( X^T u_i, X^T u_j \right) 
+								   - \operatorname{cov} \left( X^T u_i, \mu^T u_j \right) - \operatorname{cov} \left( \mu^T u_i, X^T u_j \right) + \operatorname{cov} \left( \mu^T u_i, \mu^T u_j \right)\\
+								   &= \operatorname{cov} \left( X^T u_i, X^T u_j \right).\\
+		\end{aligned}
+	\end{equation}
+Use the summation notation for the inner product as well as the bilinear property of the covariance operator,
+\begin{equation}
+	\begin{aligned}
+		\operatorname{cov} \left( Y_i, Y_j \right) &= \operatorname{cov} \left[ \sum^{d}_{k=1} X_k \left[ u_i \right]_k, \sum^{d}_{k=1} X_k \left[ u_j \right]_k   \right] \\
+							   &= \sum^{d}_{k=1} \sum^{d}_{l=1} \left[ u_i \right]_k \left[ u_j \right]_k \operatorname{cov} \left[ X_k, X_l \right].\\  
+							   &= u_i^T \Sigma u_j.
+	\end{aligned}
+\end{equation}
+Let the eigendecomposition of $\Sigma = U \Lambda U^T$,
+\begin{equation} \label{eq:sigdecomp}
+	\begin{aligned}
+		\operatorname{cov} \left( Y_i, Y_j \right)	&= u_i^T U \Lambda U^T u_j \\
+								&= e_i^T \Lambda e_j \\
+								&= \lambda_j e_i^T e_j. \\
+	\end{aligned}
+\end{equation}
+Now, $i \ne j$,
+\begin{equation}
+	\operatorname{cov} \left( Y_i, Y_j \right) = 0,\\
+\end{equation}
+being sufficient to imply that $Y_i, Y_j$ are independent.
+
 \item $Y_i \sim N(0,\lambda_i)$
+
+	\textbf{Solution: }Determine the expected value of $Y_i$,
+	\begin{equation}
+		\begin{aligned}
+			\mathbb E \left[ Y_i \right] &= \mathbb E \left[ \left( X- \mu \right)^T u_i \right] \\
+						     &= \mathbb E \left[ X^T u_i \right] - \mathbb E \left[ \mu^T u_i \right] \\
+						     &= \sum^{d}_{k=1} \left[ u_i \right]_k \mathbb E \left[ X_k \right] - \mu^T u_i \\
+						     &= \mu^T u_i - \mu^T u_i \\
+						     &= 0. \\
+		\end{aligned}
+	\end{equation}
+Now, for the variance of $Y_i$. Using Equation \ref{eq:sigdecomp},
+\begin{equation}
+	\begin{aligned}
+		\operatorname{Var} \left[ Y_i \right] &= \operatorname{cov} \left[ Y_i, Y_i \right] \\
+						      &= \lambda_i e^T_i e_i \\
+						      &= \lambda_i.
+	\end{aligned}
+\end{equation}
+Hence, $Y_i \sim N(0, \lambda_i) $.
+	
 \item 
 \begin{equation}
 \label{eq:sample}
 X = \mu + Y_1 u_1 + \ldots + Y_m u_m
 \end{equation}
 
-One can use this construction to sample from a collection of images. Sample 500 images of the digit ``7\rq\rq{} from the MNIST dataset. Compute the empirical mean $\mu$ and the empirical covariance $\Sigma$. Consider the random vector $X \in \mathbb{R}^{784}$, with $X \sim MVN (\mu,\Sigma)$. Show $\mu$ (figure \ref{fig:mu}) as well as the 16 e-vectors associated with the largest e-values.  Sample 16 images from this distribution using (\ref{eq:sample}). Examples are provided in figures (\ref{fig:mu},\ref{fig:e-vectors} and \ref{fig:samples}). Note: you might need to re-scale the e-vectors before plotting as they are of unit norm.  Truly, it doesn\rq{}t work so well in the sense that the samples of ``7\rq\rq{} do not look like real samples drawn by hand. More work is needed to obtain realistic samples. 
- \begin{figure}
-\includegraphics[width=0.5\textwidth]{mu.pdf}
-\caption{\label{fig:mu}the mean image of 500 images of the digit ``7\rq\rq{}}
+One can use this construction to sample from a collection of images. Sample 500 images of the digit ``7\rq\rq{} from the MNIST dataset. 
+Compute the empirical mean $\mu$ and the empirical covariance $\Sigma$. Consider the random vector $X \in \mathbb{R}^{784}$, with $X \sim MVN (\mu,\Sigma)$. 
+Show $\mu$ as well as the 16 e-vectors associated with the largest e-values.  Sample 16 images from this distribution using (\ref{eq:sample}). Note: you might need to re-scale the e-vectors before plotting as they are of unit norm.  Truly, it doesn\rq{}t work so well in the sense that the samples of ``7\rq\rq{} do not look like real samples drawn by hand. More work is needed to obtain realistic samples.
+
+\textbf{Solution: }See Figures \ref{fig:mean}, \ref{fig:evec} and \ref{fig:samps}.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.4\linewidth]{./img/digit_7.eps}
+	\caption{The Mean Image of 500 Samples of the Digit ``7''.}%
+	\label{fig:mean}
 \end{figure}
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{e-vectors.pdf}
-\caption{\label{fig:e-vectors}The 16 first e-vectors for the digit ``7\rq\rq{}}
+	\centering
+	\includegraphics[width=0.6\linewidth]{./img/evectors_7.eps}
+	\caption{The First 16 Eigenvectors for the Digit ``7''.}%
+	\label{fig:evec}
 \end{figure}
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{samples-of-7.pdf}
-\caption{\label{fig:samples}16 samples for the digit ``7\rq\rq{}}
+	\centering
+	\includegraphics[width=0.6\linewidth]{./img/samples_7.eps}
+	\caption{16 Samples for the Digit ``7''.}%
+	\label{fig:samps}
 \end{figure}
+
+% \begin{figure}
+%\includegraphics[width=0.5\textwidth]{mu.pdf}
+%\caption{\label{fig:mu}the mean image of 500 images of the digit ``7\rq\rq{}}
+%\end{figure}
+%\begin{figure}
+%\includegraphics[width=0.8\textwidth]{e-vectors.pdf}
+%\caption{\label{fig:e-vectors}The 16 first e-vectors for the digit ``7\rq\rq{}}
+%\end{figure}
+%\begin{figure}
+%\includegraphics[width=0.8\textwidth]{samples-of-7.pdf}
+%\caption{\label{fig:samples}16 samples for the digit ``7\rq\rq{}}
+%\end{figure}
 \end{enumerate}
 \section{Multiple measurements}
 $X \in \mathbb{R}$. $X \sim N(\mu_x,\lambda_0^{-1})$. $Y_1,\ldots,Y_n \in \mathbb{R}$, independent, same distribution $N(x,\lambda^{-1})$ given $x$. Consider observations $y_1,\ldots,y_n$ of $Y_1,\ldots,Y_n$.   
