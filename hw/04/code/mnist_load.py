@@ -2,7 +2,6 @@ from mnist import MNIST
 import numpy as np
 from label_data import PartitionData, LabelData
 import time
-from krr import KernelRidgeRegression
 
 mndata = MNIST('mnist-data')
 Xt, Yt = mndata.load_training()
@@ -71,44 +70,6 @@ def risk(y, yp):
     '''
     return 1/(np.size(y))*np.sum(0.5*np.abs(y - yp))
 
-def classify_test(s0, s1, usage, ratio, k):
-    '''
-    :param s0: First digit to classify
-    :param s1: Second digit to classify
-    :param usage: float(0, 1) How much of the total MNIST data to use
-    :param ratio: float(0, 1) Ratio to put into the training set
-    :param k: kernel function
-    :return: test results
-    '''
-    mnist, names = load_mnist_data(s0, s1, ratio, usage)
-
-    ld = LabelData()
-    ld.add_data(mnist.training[0], mnist.training[1])
-
-    t0 = time.time()
-    kregr = KernelRidgeRegression(ld, k=k, l=.0001)
-    t1 = time.time()
-    ttotal = t1 - t0
-
-    t0 = time.time()
-    y_v = kregr(mnist.validation[0])
-    y_v[y_v > 0.5] = 1
-    y_v[y_v < 0.5] = -1
-    t1 = time.time()
-    vtotal = t1 - t0
-
-    t0 = time.time()
-    y_t = kregr(mnist.training[0])
-    y_t[y_t > 0.5] = 1
-    y_t[y_t < 0.5] = -1
-    t1 = time.time()
-    rtotal = t1 - t0
-
-    error = risk(mnist.validation[1], y_v)
-    erisk = risk(mnist.training[1], y_t)
-
-    return {"error": error, "risk": erisk, "training time": ttotal, "validation time": vtotal, "risk time": rtotal,
-            "training size": mnist.training[1].shape[0], "validation size": mnist.validation[1].shape[0]}
 
 if __name__ == "__main__":
     usage = 0.1
