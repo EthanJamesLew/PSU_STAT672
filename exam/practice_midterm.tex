@@ -1,0 +1,328 @@
+% Fact sheet for MATH 300, for Fall 2014.
+\documentclass{article}[12pt]
+
+% useful packages
+\usepackage{fullpage}
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{algorithm,algorithmicx}
+\usepackage{xcolor}
+\usepackage{bbm}
+\usepackage{url}
+\usepackage{caption,subcaption}
+\usepackage{booktabs}
+
+% theorem type environments
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{cor}{Corollary}
+\newtheorem{defn}{Definition}
+\newtheorem{assump}{Assumption}
+\newtheorem{example}{Example}
+\newtheorem{conjecture}{Conjecture}
+
+% frequently used symbols
+\newcommand{\bE}{\mathbb{E}}
+\newcommand{\bP}{\mathbb{P}}
+\newcommand{\bQ}{\mathbb{Q}}
+\newcommand{\bR}{\mathbb{R}}
+\newcommand{\bS}{\mathbb{S}}
+\newcommand{\bN}{\mathbb{N}}
+\newcommand{\bZ}{\mathbb{Z}}
+\newcommand{\sC}{{\mathcal C}} 
+\newcommand{\sD}{{\mathcal D}} 
+\newcommand{\sE}{{\mathcal E}} 
+\newcommand{\sF}{{\mathcal F}} 
+\newcommand{\sL}{{\mathcal L}} 
+\newcommand{\sH}{{\mathcal H}} 
+\newcommand{\sN}{{\mathcal N}} 
+\newcommand{\sO}{{\mathcal O}} 
+\newcommand{\sP}{{\mathcal P}} 
+\newcommand{\sR}{{\mathcal R}} 
+\newcommand{\sS}{{\mathcal S}}
+\newcommand{\sU}{{\mathcal U}} 
+\newcommand{\sX}{{\mathcal X}} 
+\newcommand{\sY}{{\mathcal Y}} 
+\newcommand{\sZ}{{\mathcal Z}}
+
+% operators
+\newcommand{\sign}{\mathop{\mathrm{sign}}}
+\newcommand{\supp}{\mathop{\mathrm{supp}}} % support
+\newcommand{\argmin}{\operatornamewithlimits{arg\ min}}
+\newcommand{\argmax}{\operatornamewithlimits{arg\ max}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\vecop}{\text{vec}}
+\newcommand{\st}{\operatorname{s.t.}}
+\newcommand{\cut}{\setminus}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\ind}[1]{\mathbbm{1}\left\{#1\right\}} 
+\newcommand{\given}{\ | \ }
+
+% grouping operators
+\newcommand{\brac}[1]{\left[#1\right]}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\ip}[2]{\left\langle #1,#2 \right\rangle}
+
+% code commands
+\newcommand{\matlab}{\textsc{Matlab }}
+\newcommand{\algname}[1]{\textnormal{\textsc{#1}}}
+
+\graphicspath{{./img/}}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+	  \hskip -\arraycolsep
+	    \let\@ifnextchar\new@ifnextchar
+	      \array{#1}}
+	      \makeatother
+
+% header command
+\newcommand{\homework}[4]{
+    \pagestyle{myheadings}
+    \thispagestyle{plain}
+    \newpage
+    \setcounter{page}{1}
+    \setlength{\headsep}{10mm}
+    \noindent
+    \begin{center}
+    \framebox{
+        \vbox{\vspace{2mm}
+            \hbox to 6.28in { {\bf STAT 672: Statistical Learning II
+            \hfill Winter 2020} }
+        \vspace{4mm}
+        \hbox to 6.28in { {\Large \hfill Midterm Preparation \hfill} }
+        \vspace{2mm}
+        \hbox to 6.28in { \Large \hfill Due: #2 \hfill }
+        \vspace{2mm}
+        \hbox to 6.28in { {\it Student Name: #3} \hfill {\it Professor Name: #4}}
+        \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{Midterm Preparation}{Midterm Preparation}
+   \vspace*{4mm}
+}
+
+\begin{document}
+\homework{0}{March 2$^\text{nd}$, 2020}{Ethan Lew}{Dr. Bruno Jedynak}
+\section{Practice Midterm}
+
+\subsection{Brownian Bridge}
+
+Let $W_t, t \ge 0$ be a Brownian motion process. That is
+\begin{enumerate}[(i)]
+	\item $W_t, t \ge 0$ is a Gaussian process.
+	\item $W_0 = 0$.
+	\item $\mathbb E \left[ W_t \right] = 0, t \ge 0$.
+	\item $\operatorname{cov} \left[ W_s, W_t \right] = \min \left( s, t \right)$.
+\end{enumerate}
+
+Consider a new process, $B_t$ a ``Brownian Bridge'', defined over the interval $[a, b]$ with $0 \le a < b$ which has the distribution of $W_t$ conditioned on the event $ \left\{ W_a = w_a, W_b = w_b \right\} $, for some $w_a, w_b \in \mathbb R$. $B_t$ is a gaussian process. Compute,
+
+\begin{enumerate}
+	\item $\mathbb E \left[ B_t \right], a \le t < b$.
+
+		\textbf{Solution:} As $B_t$ is a Gaussian random variable, a vector following a multivariate normal distribution can be costructed,
+		\begin{equation}
+			\begin{pmatrix}
+				W_t \\
+				W_a \\
+				W_b \\
+			\end{pmatrix} \sim
+			N \left( 
+			\begin{pmatrix}
+				0 \\
+				0 \\
+				0 \\
+			\end{pmatrix},
+			\begin{pmatrix}
+				t & a & t \\
+				a & a & a \\
+				t & a & b \\
+			\end{pmatrix}
+			\right)
+		\end{equation}
+This means that
+\begin{equation}
+	\begin{aligned}
+		\Sigma_{12} &= \begin{pmatrix}
+		a & t \\	
+	\end{pmatrix}, \\
+			\Sigma_{22} &= \begin{pmatrix}
+				a & a \\
+				a & b \\
+			\end{pmatrix}.
+	\end{aligned}
+\end{equation}
+Notably, the inverse of $\Sigma_{22}$ can easily be determined,
+\begin{equation}
+	\begin{aligned}
+		\Sigma_{22} &= \frac{1}{ab - a^2} \begin{pmatrix}
+			b & -a \\
+			-a & a \\
+		\end{pmatrix} \\
+			    &= \frac{1}{b - a}  \begin{pmatrix}
+				    b/a & -1 \\
+				    -1 & 1 \\
+			    \end{pmatrix}.
+	\end{aligned}
+\end{equation}
+Now, substitute the conditional expectation formula to get the desired expected value of $B_t$,
+\begin{equation}
+	\begin{aligned}
+		\mathbb E \left[ B_t \right] &= \mathbb E \left[ W_t \middle| W_a = w_a, W_b=w_b \right] \\
+					     &= \mu_t + \Sigma_{12} \Sigma_{22}^{-1} \left( \begin{pmatrix}
+		w_a \\
+		w_b \\
+					     \end{pmatrix} - \begin{pmatrix}
+					     	0 \\
+						0 \\
+					     \end{pmatrix} \right) \\
+					     &= \frac{1}{b - a}  \begin{pmatrix}
+						     a & t\\
+					     \end{pmatrix} \begin{pmatrix}
+						     b/a & -1 \\
+						     -1 & 1 \\
+					     \end{pmatrix} \begin{pmatrix}
+					     	w_a \\
+						w_b \\
+					     \end{pmatrix} \\
+					     &= \frac{1}{b - a} \begin{pmatrix}
+						     b - t  & -a + t \\
+					     \end{pmatrix} \begin{pmatrix}
+					     	w_a \\
+						w_b \\
+					     \end{pmatrix} \\
+					     &= w_a \frac{b- t}{b - a} + w_b \frac{t - a}{b - a}  \\
+					     &= w_a \frac{b - t + a - a }{b - a} + w_b \frac{t-a}{b-a} \\
+					     &= w_a + \frac{t-a}{b-a} \left( w_b - w_a \right). \\
+	\end{aligned}
+\end{equation}
+	
+	\item $\operatorname{cov} \left[ B_s, B_t \right], a \le s, t \le b$.
+		
+		\textbf{Solution: }Use a similar approach to the first problem,
+		\begin{equation}
+			\begin{pmatrix}
+				W_s \\
+				W_t \\
+				W_a \\
+				W_b \\
+			\end{pmatrix} \sim N \left( 
+\begin{pmatrix}
+	0 \\
+	0 \\
+	0 \\
+	0 \\
+\end{pmatrix}, 
+\begin{pmatrix}
+	s & \min (s, t) & a & s\\
+	\min (s, t) & t & a & t \\
+	a & a & a & a \\
+	s & t & a & b \\
+\end{pmatrix}
+			\right)
+		\end{equation}
+\end{enumerate}
+Note that $\Sigma_{22}$ is unchanged, but
+\begin{equation}
+	\begin{aligned}
+		\Sigma_{11} &= \begin{pmatrix}
+			s & \min (s, t)\\
+			\min (s,t) & t \\
+		\end{pmatrix},	\\
+			\Sigma_{12} &= \begin{pmatrix}
+				a & s \\
+				a & t \\
+			\end{pmatrix}.
+	\end{aligned}
+\end{equation}
+Using the MVN conditional covariance formula,
+\begin{equation}
+	\begin{aligned}
+		\operatorname{cov} \left[ W_s, W_t | W_a = w_a, W_b = w_b \right] &= \Sigma_{11} - \Sigma_{12} \Sigma_{22}^{-1} \Sigma_{12}^T \\
+										  &= \Sigma_{11} - \frac{1}{b-a} \begin{pmatrix}
+											  a(b-s) + s (s- a) & a (b-s) + (s-a)t \\
+											  a (b-t) + s(t-a) & a (b-t) + t(t-a) \\
+										  	
+										  \end{pmatrix} 
+	\end{aligned}
+\end{equation}
+It is clear, then, that
+\begin{equation}
+	\begin{aligned}
+	\operatorname{cov} \left[ B_s, B_t  \right] &= \left[ \operatorname{cov} \left[ W_s, W_t \middle| W_a = w_a, W_b=w_b  \right] \right]_{12} \\
+						    &= \min (s, t) - a \frac{b-t}{b-a} - s \frac{t-a}{b -a} . 
+	\end{aligned}
+\end{equation}
+Now, permit $s < t$,
+\begin{equation}
+	\begin{aligned}
+		\operatorname{cov} \left[ B_s, B_t \right] &= s \frac{a-b}{b-a} -a \frac{b-t}{b-a}  - s \frac{t-a}{b-a} \\
+							   &= \frac{sb - sa - ab + at - st + sa}{b-a}  \\
+							   &=  \frac{(b-t)(s-a)}{b-a}. \\ 
+	\end{aligned}
+\end{equation}
+
+\section{Problem Types}
+
+Here, patterns found in the homework are described, as well as the approaches used to produce a solution.
+
+\begin{enumerate}[(i)]
+	\item \textit{Show that variables are independent.}  As seen in 4.1.1, a random variable $Y_i$ is given that relates to another, gaussian random variable $X_i$. Notably, two features are used to produced a solution,
+		\begin{enumerate}
+			\item A linear tranformation of a gaussian variable is also a gaussian variable.
+			\item Uncorrelatedness $\implies$ independence.
+		\end{enumerate}	
+	\item \textit{Show that a random variable has some distribution.} From 4.1.2, it is desired to show that variable related to a gaussian variable has a given distribution. Given that it was already known that the variable is also gaussian, showing the distribution was simple,
+		\begin{enumerate}
+			\item Show the mean by $\mathbb E \left[ Y_i = f(X_i) \right]$.
+			\item Show the variance by taking $\operatorname{cov} \left[ Y_i = f(X_i), Y_i = f(X_i) \right]$.
+		\end{enumerate}
+		Further, this technique can be used to \textit{show that two expressions of random variables are equal.} Question 4.1.3 can be solved showing equivalence by equating the statistical moments.
+	\item \textit{Compute statistics conditioned on measurements.} Problems 4.2 - 4.4 dealt with problems involving random variables conditioned measurements. These questions relate to the Bayesian inference and gaussian process regression seen in class. There two approaches seen so far: 
+
+		\begin{enumerate}
+			\item \textit{Augment the desired random variable and the measurements into a vector and use MVN properties.} Using formulas of statistics of the multivariate gaussian distribution, the steps to create a solution are often ``turn the crank''. The most common formulas used so far are
+	
+		\begin{equation*}
+			\begin{aligned}
+			\begin{pmatrix}
+				X_1 \\
+				X_2 \\
+			\end{pmatrix} &\sim N \left( 
+\begin{pmatrix}
+\mu_1 \\
+\mu_2 \\
+\end{pmatrix},
+\begin{pmatrix}
+	\Sigma_{11} & \Sigma_{12} \\
+	\Sigma_{12}^T & \Sigma_{22}\\ 
+\end{pmatrix}
+			\right)			 \\
+			\mathbb E \left[ X_1 \middle| X_2 = x_2 \right] &= \mu_1 + \Sigma_{12} \Sigma_{22}^{-1} \left( x_2 - \mu_2 \right) \\
+			\operatorname{cov} \left[ X_1 | X_2 = x_2 \right] &= \Sigma_{11} - \Sigma_{12} \Sigma_{22}^{-1} \Sigma_{12}^T \\
+	\end{aligned}
+		\end{equation*}
+		In the case of observations, the idea is to take a collection of values $x_1,...,x_n$ and create a vector $X \in \mathbb R^n$. Likewise, if a transformation $y_i = g(x_i)$ is involved, find a vector expression $Y = G(X)$. This was used to solve 4.2 and 4.4. 
+
+			\item \textit{Use Baye's Rule to compute a conditional probability density and extract the necessary statistics from it.} As follows naturally from a Bayesian formalism, posterior distributions can be created from a prior one and measurements. Namely,
+				\begin{equation}
+				P(X | Y) = \frac{P(Y|X)P(X)}{P(Y)} = \frac{P(Y|X) P(X)}{ \int_{\text{Range(X)}} P(Y | X=x) dx}. 
+				\end{equation}
+		This approach is used in chapter 1 of \textit{Gaussian Processes for Machine Learning}. 
+		\end{enumerate}
+	\item \textit{Show that a function $\pi_V$ is a valid projection.}
+
+	\item \textit{Show that a set of functions is a valid RKHS.}
+	\item \textit{Solve for the optimal function of a cost functional.}
+	\item \textit{Show that a function is a valid kernel. }
+		\end{enumerate}
+
+
+\end{document}
