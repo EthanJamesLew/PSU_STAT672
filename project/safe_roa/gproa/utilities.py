@@ -253,7 +253,8 @@ def ellipse_bounds(P, level, n=100):
 
     # Compute positions
     pos = np.cos(angle) * eigvec[:, 0] + np.sin(angle) * eigvec[:, 1]
-    n /= 2
+    # ELEW for python 3.6+
+    n //= 2
 
     # Return x-position (symmetric) and upper/lower bounds
     return pos[:n, 0], pos[:n, 1], pos[:n-1:-1, 1]
